@@ -20,7 +20,7 @@ func NewPostgresFacultyRepository(db *pgxpool.Pool) (interfaces.FacultyRepositor
 
 func (r *PostgresFacultyRepository) GetFaculties() ([]entity.Faculty, error) {
 	var faculties []entity.Faculty
-	q := "SELECT (id, name) FROM Faculties"
+	q := "SELECT id, name FROM Faculties"
 	rows, err := r.db.Query(context.Background(), q)
 	if err != nil && err.Error() != "no rows in result set" {
 		return faculties, err
@@ -63,7 +63,7 @@ func (r *PostgresFacultyRepository) parseRowsToSlice(rows pgx.Rows) ([]entity.Fa
 		if err := rows.Scan(&id, &name); err != nil {
 			return slice, err
 		}
-		slice = append(slice, entity.Faculty{id, name})
+		slice = append(slice, entity.Faculty{Id: id, Name: name})
 	}
 	return slice, nil
 }

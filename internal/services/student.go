@@ -26,7 +26,7 @@ func (s *StudentService) GetStudents(id int) ([]map[string]string, error) {
 		studentsMap := map[string]string{
 			"id":         strconv.Itoa(item.Id),
 			"group_id":   strconv.Itoa(item.GroupId),
-			"sex":        strconv.Itoa(item.GroupId),
+			"sex":        strconv.Itoa(item.Gender),
 			"firstname":  item.FirstName,
 			"middlename": item.MiddleName,
 			"lastname":   item.LastName,

@@ -23,10 +23,10 @@ func NewFacultyHandlers(engine *gin.Engine, svc *services.FacultyService) (*Facu
 }
 
 func (h *FacultyHandlers) initRoute() {
-	h.engine.GET("/faculty", h.GetFaculties)
-	h.engine.DELETE("/faculty", h.DeleteFaculty)
-	h.engine.PUT("/faculty", h.InsertFaculty)
-	h.engine.POST("/faculty", h.UpdateFaculty)
+	h.engine.GET("/faculty", h.GetFaculties)     //
+	h.engine.DELETE("/faculty", h.DeleteFaculty) //
+	h.engine.PUT("/faculty", h.InsertFaculty)    //
+	h.engine.POST("/faculty", h.UpdateFaculty)   //
 }
 
 func (h *FacultyHandlers) GetFaculties(c *gin.Context) {

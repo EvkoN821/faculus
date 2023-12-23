@@ -20,19 +20,18 @@ func NewPostgresGroupRepository(db *pgxpool.Pool) (interfaces.GroupRepository, e
 
 func (r *PostgresGroupRepository) GetGroups(id int) ([]entity.Group, error) {
 	var groups []entity.Group
-	q := "SELECT (id, faculty_id, name) FROM Groups WHERE faculty_id=$1"
+	q := "SELECT id, faculty_id, name FROM Groups WHERE faculty_id=$1"
 	rows, err := r.db.Query(context.Background(), q, id)
 	if err != nil && err.Error() != "no rows in result set" {
 		return groups, err
 	}
-	//groups, err =
 	return r.parseRowsToSlice(rows)
 
 }
 
 func (r *PostgresGroupRepository) InsertGroup(group entity.Group) error {
 	q := "INSERT INTO Groups (faculty_id, name) VALUES ($1, $2)"
-	if _, err := r.db.Exec(context.Background(), q, group.Id, group.Name); err != nil {
+	if _, err := r.db.Exec(context.Background(), q, group.FacultyId, group.Name); err != nil {
 		return err
 	}
 	return nil
@@ -63,7 +62,7 @@ func (r *PostgresGroupRepository) parseRowsToSlice(rows pgx.Rows) ([]entity.Grou
 		if err := rows.Scan(&id, &facultyId, &name); err != nil {
 			return slice, err
 		}
-		slice = append(slice, entity.Group{id, facultyId, name})
+		slice = append(slice, entity.Group{Id: id, FacultyId: facultyId, Name: name})
 	}
 	return slice, nil
 }

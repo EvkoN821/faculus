@@ -23,7 +23,7 @@ func NewUserHandlers(engine *gin.Engine, svc *services.UserService) (*UserHandle
 }
 
 func (h *UserHandlers) initRoute() {
-	h.engine.POST("/user", h.Login)
+	h.engine.POST("/user", h.Login) //
 }
 
 func (h *UserHandlers) Login(c *gin.Context) {

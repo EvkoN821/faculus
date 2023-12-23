@@ -23,10 +23,10 @@ func NewStudentHandlers(engine *gin.Engine, svc *services.StudentService) (*Stud
 }
 
 func (h *StudentHandlers) initRoute() {
-	h.engine.GET("/student", h.GetStudents)
-	h.engine.DELETE("/student", h.DeleteStudent)
-	h.engine.PUT("/student", h.InsertStudent)
-	h.engine.POST("/student", h.UpdateStudent)
+	h.engine.GET("/student", h.GetStudents)      //
+	h.engine.DELETE("/student", h.DeleteStudent) //
+	h.engine.PUT("/student", h.InsertStudent)    //
+	h.engine.POST("/student", h.UpdateStudent)   //
 }
 
 func (h *StudentHandlers) GetStudents(c *gin.Context) {

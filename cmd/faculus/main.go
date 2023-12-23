@@ -22,7 +22,7 @@ func main() {
 		logLevel string
 	)
 	//postgres://dynus:dynus@localhost:5555/dynus
-	//postgres://dynus:dynus@postgres:5432/dynus
+	//postgres://faculus:faculus@postgres:5432/faculus
 	flag.StringVar(&dbUrl, "db", "postgres://faculus:faculus@postgres:5432/faculus", "database connection url")
 	flag.StringVar(&listen, "listen", ":8080", "server listen interface")
 	flag.StringVar(&logLevel, "log-level", "error", "log level: panic, fatal, error, warning, info, debug, trace")

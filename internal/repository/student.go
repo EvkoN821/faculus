@@ -5,6 +5,7 @@ import (
 	"github.com/IlyaZayats/faculus/internal/entity"
 	"github.com/IlyaZayats/faculus/internal/interfaces"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -20,7 +21,7 @@ func NewPostgresStudentRepository(db *pgxpool.Pool) (interfaces.StudentRepositor
 
 func (r *PostgresStudentRepository) GetStudents(id int) ([]entity.Student, error) {
 	var students []entity.Student
-	q := "SELECT (id, group_id, firstname, lastname, middlename, birthdate, phone, sex) FROM Students WHERE group_id=$1"
+	q := "SELECT id, group_id, firstname, lastname, middlename, birthdate, phone, sex FROM Students WHERE group_id=$1"
 	rows, err := r.db.Query(context.Background(), q, id)
 	if err != nil && err.Error() != "no rows in result set" {
 		return students, err
@@ -39,8 +40,8 @@ func (r *PostgresStudentRepository) InsertStudent(student entity.Student) error 
 }
 
 func (r *PostgresStudentRepository) UpdateStudent(student entity.Student) error {
-	q := "UPDATE Students SET (lastname, firstname, middlename, birthdate, phone, sex) = ($1, $2, $3, $4, $5, $6) WHERE group_id=$7"
-	if _, err := r.db.Exec(context.Background(), q, student.LastName, student.FirstName, student.MiddleName, student.BirthDate, student.PhoneNumber, student.Gender, student.GroupId); err != nil {
+	q := "UPDATE Students SET (lastname, firstname, middlename, birthdate, phone, sex) = ($1, $2, $3, $4, $5, $6) WHERE id=$7"
+	if _, err := r.db.Exec(context.Background(), q, student.LastName, student.FirstName, student.MiddleName, student.BirthDate, student.PhoneNumber, student.Gender, student.Id); err != nil {
 		return err
 	}
 	return nil
@@ -59,11 +60,13 @@ func (r *PostgresStudentRepository) parseRowsToSlice(rows pgx.Rows) ([]entity.St
 	defer rows.Close()
 	for rows.Next() {
 		var id, groupId, gender int
-		var firstName, lastName, middleName, birthDate, phone string
+		var firstName, lastName, middleName, phone string
+		var birthDate pgtype.Date
 		if err := rows.Scan(&id, &groupId, &firstName, &lastName, &middleName, &birthDate, &phone, &gender); err != nil {
 			return slice, err
 		}
-		slice = append(slice, entity.Student{id, groupId, lastName, firstName, middleName, birthDate, phone, gender})
+		birthDateString := birthDate.Time.Format("2006.01.02")
+		slice = append(slice, entity.Student{Id: id, GroupId: groupId, LastName: lastName, FirstName: firstName, MiddleName: middleName, BirthDate: birthDateString, PhoneNumber: phone, Gender: gender})
 	}
 	return slice, nil
 }

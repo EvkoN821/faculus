@@ -23,10 +23,10 @@ func NewGroupHandlers(engine *gin.Engine, svc *services.GroupService) (*GroupHan
 }
 
 func (h *GroupHandlers) initRoute() {
-	h.engine.GET("/group", h.GetGroups)
-	h.engine.DELETE("/group", h.DeleteGroup)
-	h.engine.PUT("/group", h.InsertGroup)
-	h.engine.POST("/group", h.UpdateGroup)
+	h.engine.GET("/group", h.GetGroups)      //
+	h.engine.DELETE("/group", h.DeleteGroup) //
+	h.engine.PUT("/group", h.InsertGroup)    //
+	h.engine.POST("/group", h.UpdateGroup)   //
 }
 
 func (h *GroupHandlers) GetGroups(c *gin.Context) {
