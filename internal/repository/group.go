@@ -20,7 +20,7 @@ func NewPostgresGroupRepository(db *pgxpool.Pool) (interfaces.GroupRepository, e
 
 func (r *PostgresGroupRepository) GetGroups(id int) ([]entity.Group, error) {
 	var groups []entity.Group
-	q := "SELECT id, faculty_id, name FROM Groups WHERE faculty_id=$1"
+	q := "SELECT id, faculty_id, name FROM Groups"
 	rows, err := r.db.Query(context.Background(), q, id)
 	if err != nil && err.Error() != "no rows in result set" {
 		return groups, err
