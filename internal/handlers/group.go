@@ -8,9 +8,8 @@ import (
 )
 
 type GroupHandlers struct {
-	svc       *services.GroupService
-	engine    *gin.Engine
-	validator *Validate
+	svc    *services.GroupService
+	engine *gin.Engine
 }
 
 func NewGroupHandlers(engine *gin.Engine, svc *services.GroupService) (*GroupHandlers, error) {
@@ -30,17 +29,17 @@ func (h *GroupHandlers) initRoute() {
 }
 
 func (h *GroupHandlers) GetGroups(c *gin.Context) {
-	req, ok := GetRequest[requests.GetGroupsRequest](c)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "get groups request error", "text": ok})
-		return
-	}
-	faculties, err := h.svc.GetGroups(req.Id)
+	//req, ok := GetRequest[requests.GetGroupsRequest](c)
+	//if !ok {
+	//	c.JSON(http.StatusBadRequest, gin.H{"error": "get groups request error", "text": ok})
+	//	return
+	//}
+	groups, err := h.svc.GetGroups()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "get groups error", "text": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": faculties})
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": groups})
 }
 
 func (h *GroupHandlers) DeleteGroup(c *gin.Context) {

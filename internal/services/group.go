@@ -16,8 +16,8 @@ func NewGroupService(repo interfaces.GroupRepository) (*GroupService, error) {
 	}, nil
 }
 
-func (s *GroupService) GetGroups(id int) ([]map[string]string, error) {
-	groups, err := s.repo.GetGroups(id)
+func (s *GroupService) GetGroups() ([]map[string]string, error) {
+	groups, err := s.repo.GetGroups()
 	if err != nil {
 		return nil, err
 	}

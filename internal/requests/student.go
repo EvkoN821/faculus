@@ -1,8 +1,8 @@
 package requests
 
-type GetStudentsRequest struct {
-	Id int `json:"id" binding:"required"`
-}
+//type GetStudentsRequest struct {
+//	Id int `json:"id" binding:"required"`
+//}
 
 type InsertStudentRequest struct {
 	FirstName   string `json:"firstname" binding:"required"`

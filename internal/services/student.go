@@ -16,8 +16,8 @@ func NewStudentService(repo interfaces.StudentRepository) (*StudentService, erro
 	}, nil
 }
 
-func (s *StudentService) GetStudents(id int) ([]map[string]string, error) {
-	students, err := s.repo.GetStudents(id)
+func (s *StudentService) GetStudents() ([]map[string]string, error) {
+	students, err := s.repo.GetStudents()
 	if err != nil {
 		return nil, err
 	}

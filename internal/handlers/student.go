@@ -8,9 +8,8 @@ import (
 )
 
 type StudentHandlers struct {
-	svc       *services.StudentService
-	engine    *gin.Engine
-	validator *Validate
+	svc    *services.StudentService
+	engine *gin.Engine
 }
 
 func NewStudentHandlers(engine *gin.Engine, svc *services.StudentService) (*StudentHandlers, error) {
@@ -30,12 +29,12 @@ func (h *StudentHandlers) initRoute() {
 }
 
 func (h *StudentHandlers) GetStudents(c *gin.Context) {
-	req, ok := GetRequest[requests.GetStudentsRequest](c)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "get students request error", "text": ok})
-		return
-	}
-	students, err := h.svc.GetStudents(req.Id)
+	//req, ok := GetRequest[requests.GetStudentsRequest](c)
+	//if !ok {
+	//	c.JSON(http.StatusBadRequest, gin.H{"error": "get students request error", "text": ok})
+	//	return
+	//}
+	students, err := h.svc.GetStudents()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "get students error", "text": err.Error()})
 		return

@@ -8,9 +8,8 @@ import (
 )
 
 type FacultyHandlers struct {
-	svc       *services.FacultyService
-	engine    *gin.Engine
-	validator *Validate
+	svc    *services.FacultyService
+	engine *gin.Engine
 }
 
 func NewFacultyHandlers(engine *gin.Engine, svc *services.FacultyService) (*FacultyHandlers, error) {

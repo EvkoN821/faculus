@@ -19,10 +19,10 @@ func NewPostgresStudentRepository(db *pgxpool.Pool) (interfaces.StudentRepositor
 	}, nil
 }
 
-func (r *PostgresStudentRepository) GetStudents(id int) ([]entity.Student, error) {
+func (r *PostgresStudentRepository) GetStudents() ([]entity.Student, error) {
 	var students []entity.Student
 	q := "SELECT id, group_id, firstname, lastname, middlename, birthdate, phone, sex FROM Students"
-	rows, err := r.db.Query(context.Background(), q, id)
+	rows, err := r.db.Query(context.Background(), q)
 	if err != nil && err.Error() != "no rows in result set" {
 		return students, err
 	}
