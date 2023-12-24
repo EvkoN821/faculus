@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"github.com/IlyaZayats/faculus/internal/requests"
 	"github.com/IlyaZayats/faculus/internal/services"
 	"github.com/gin-gonic/gin"
@@ -62,7 +61,7 @@ func (h *FacultyHandlers) InsertFaculty(c *gin.Context) {
 		return
 	}
 
-	if err := h.svc.InsertFaculty(fmt.Sprintf("%v", req.Faculty["name"])); err != nil {
+	if err := h.svc.InsertFaculty(req.Name); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "insert faculty error", "text": err.Error()})
 		return
 	}
@@ -78,7 +77,7 @@ func (h *FacultyHandlers) UpdateFaculty(c *gin.Context) {
 		return
 	}
 
-	if err := h.svc.UpdateFaculty(req.Faculty["id"].(int), fmt.Sprintf("%v", req.Faculty["name"])); err != nil {
+	if err := h.svc.UpdateFaculty(req.Id, req.Name); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "update faculty error", "text": err.Error()})
 		return
 	}
