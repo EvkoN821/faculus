@@ -4,6 +4,7 @@ import (
 	"github.com/IlyaZayats/faculus/internal/requests"
 	"github.com/IlyaZayats/faculus/internal/services"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -22,10 +23,10 @@ func NewStudentHandlers(engine *gin.Engine, svc *services.StudentService) (*Stud
 }
 
 func (h *StudentHandlers) initRoute() {
-	h.engine.GET("/student", h.GetStudents)      //
-	h.engine.DELETE("/student", h.DeleteStudent) //
-	h.engine.PUT("/student", h.InsertStudent)    //
-	h.engine.POST("/student", h.UpdateStudent)   //
+	h.engine.GET("/student", h.GetStudents)           //
+	h.engine.POST("/student/delete", h.DeleteStudent) //
+	h.engine.PUT("/student", h.InsertStudent)         //
+	h.engine.POST("/student", h.UpdateStudent)        //
 }
 
 func (h *StudentHandlers) GetStudents(c *gin.Context) {
@@ -39,7 +40,8 @@ func (h *StudentHandlers) GetStudents(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "get students error", "text": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": students})
+	logrus.Debug(students)
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "item": students})
 }
 
 func (h *StudentHandlers) DeleteStudent(c *gin.Context) {
@@ -54,7 +56,7 @@ func (h *StudentHandlers) DeleteStudent(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "delete student error", "text": err.Error()})
 		return
 	}
-
+	logrus.Debug(req)
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }
 
@@ -70,7 +72,7 @@ func (h *StudentHandlers) InsertStudent(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "insert student error", "text": err.Error()})
 		return
 	}
-
+	logrus.Debug(req)
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }
 
@@ -86,6 +88,6 @@ func (h *StudentHandlers) UpdateStudent(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "update student error", "text": err.Error()})
 		return
 	}
-
+	logrus.Debug(req)
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }

@@ -21,7 +21,7 @@ func (s *StudentService) GetStudents() ([]map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	var studentsSlice []map[string]string
+	studentsSlice := []map[string]string{}
 	for _, item := range students {
 		studentsMap := map[string]string{
 			"id":         strconv.Itoa(item.Id),

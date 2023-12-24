@@ -21,7 +21,7 @@ func (s *GroupService) GetGroups() ([]map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	var groupsSlice []map[string]string
+	groupsSlice := []map[string]string{}
 	for _, item := range groups {
 		groupsMap := map[string]string{
 			"id":         strconv.Itoa(item.Id),

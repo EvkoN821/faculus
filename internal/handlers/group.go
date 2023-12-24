@@ -4,6 +4,7 @@ import (
 	"github.com/IlyaZayats/faculus/internal/requests"
 	"github.com/IlyaZayats/faculus/internal/services"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -22,10 +23,10 @@ func NewGroupHandlers(engine *gin.Engine, svc *services.GroupService) (*GroupHan
 }
 
 func (h *GroupHandlers) initRoute() {
-	h.engine.GET("/group", h.GetGroups)      //
-	h.engine.DELETE("/group", h.DeleteGroup) //
-	h.engine.PUT("/group", h.InsertGroup)    //
-	h.engine.POST("/group", h.UpdateGroup)   //
+	h.engine.GET("/group", h.GetGroups)           //
+	h.engine.POST("/group/delete", h.DeleteGroup) //
+	h.engine.PUT("/group", h.InsertGroup)         //
+	h.engine.POST("/group", h.UpdateGroup)        //
 }
 
 func (h *GroupHandlers) GetGroups(c *gin.Context) {
@@ -39,7 +40,8 @@ func (h *GroupHandlers) GetGroups(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "get groups error", "text": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": groups})
+	logrus.Debug(groups)
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "item": groups})
 }
 
 func (h *GroupHandlers) DeleteGroup(c *gin.Context) {
@@ -54,13 +56,14 @@ func (h *GroupHandlers) DeleteGroup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "delete group error", "text": err.Error()})
 		return
 	}
-
+	logrus.Debug(req)
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }
 
 func (h *GroupHandlers) InsertGroup(c *gin.Context) {
 
 	req, ok := GetRequest[requests.InsertGroupRequest](c)
+	logrus.Debug(req)
 	if !ok {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "insert group request error", "text": ok})
 		return
@@ -70,7 +73,6 @@ func (h *GroupHandlers) InsertGroup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "insert group error", "text": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }
 
@@ -86,6 +88,6 @@ func (h *GroupHandlers) UpdateGroup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "update group error", "text": err.Error()})
 		return
 	}
-
+	logrus.Debug(req)
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }

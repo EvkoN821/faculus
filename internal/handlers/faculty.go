@@ -4,6 +4,7 @@ import (
 	"github.com/IlyaZayats/faculus/internal/requests"
 	"github.com/IlyaZayats/faculus/internal/services"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -22,10 +23,10 @@ func NewFacultyHandlers(engine *gin.Engine, svc *services.FacultyService) (*Facu
 }
 
 func (h *FacultyHandlers) initRoute() {
-	h.engine.GET("/faculty", h.GetFaculties)     //
-	h.engine.DELETE("/faculty", h.DeleteFaculty) //
-	h.engine.PUT("/faculty", h.InsertFaculty)    //
-	h.engine.POST("/faculty", h.UpdateFaculty)   //
+	h.engine.GET("/faculty", h.GetFaculties)          //
+	h.engine.POST("/faculty/delete", h.DeleteFaculty) //
+	h.engine.PUT("/faculty", h.InsertFaculty)         //
+	h.engine.POST("/faculty", h.UpdateFaculty)        //
 }
 
 func (h *FacultyHandlers) GetFaculties(c *gin.Context) {
@@ -34,7 +35,8 @@ func (h *FacultyHandlers) GetFaculties(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "get faculties error", "text": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": faculties})
+	logrus.Debug(faculties)
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "item": faculties})
 }
 
 func (h *FacultyHandlers) DeleteFaculty(c *gin.Context) {
@@ -49,7 +51,7 @@ func (h *FacultyHandlers) DeleteFaculty(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "delete faculty error", "text": err.Error()})
 		return
 	}
-
+	logrus.Debug(req)
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }
 
@@ -65,7 +67,7 @@ func (h *FacultyHandlers) InsertFaculty(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "insert faculty error", "text": err.Error()})
 		return
 	}
-
+	logrus.Debug(req)
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }
 
@@ -81,6 +83,6 @@ func (h *FacultyHandlers) UpdateFaculty(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "update faculty error", "text": err.Error()})
 		return
 	}
-
+	logrus.Debug(req)
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }

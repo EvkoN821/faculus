@@ -21,7 +21,7 @@ func (s *FacultyService) GetFaculties() ([]map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	var facultiesSlice []map[string]string
+	facultiesSlice := []map[string]string{}
 	for _, item := range faculties {
 		facultiesMap := map[string]string{
 			"id":   strconv.Itoa(item.Id),

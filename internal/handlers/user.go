@@ -4,6 +4,7 @@ import (
 	"github.com/IlyaZayats/faculus/internal/requests"
 	"github.com/IlyaZayats/faculus/internal/services"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -37,5 +38,6 @@ func (h *UserHandlers) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "get users error", "text": err.Error()})
 		return
 	}
+	logrus.Debug(req)
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": user})
 }
