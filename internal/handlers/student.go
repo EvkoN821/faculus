@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/IlyaZayats/faculus/internal/requests"
 	"github.com/IlyaZayats/faculus/internal/services"
 	"github.com/gin-gonic/gin"
@@ -66,7 +67,15 @@ func (h *StudentHandlers) InsertStudent(c *gin.Context) {
 		return
 	}
 
-	if err := h.svc.InsertStudent(req.FirstName, req.LastName, req.MiddleName, req.PhoneNumber, req.BirthDate, req.GroupId, req.Gender); err != nil {
+	firstName := fmt.Sprintf("%v", req.Student["firstname"])
+	lastName := fmt.Sprintf("%v", req.Student["lastname"])
+	middleName := fmt.Sprintf("%v", req.Student["middlename"])
+	phone := fmt.Sprintf("%v", req.Student["phone"])
+	birthDate := fmt.Sprintf("%v", req.Student["birthdate"])
+	groupId := req.Student["group_id"].(int)
+	gender := req.Student["sex"].(int)
+
+	if err := h.svc.InsertStudent(firstName, lastName, middleName, phone, birthDate, groupId, gender); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "insert student error", "text": err.Error()})
 		return
 	}
@@ -82,7 +91,15 @@ func (h *StudentHandlers) UpdateStudent(c *gin.Context) {
 		return
 	}
 
-	if err := h.svc.UpdateStudent(req.FirstName, req.LastName, req.MiddleName, req.PhoneNumber, req.BirthDate, req.Id, req.Gender); err != nil {
+	firstName := fmt.Sprintf("%v", req.Student["firstname"])
+	lastName := fmt.Sprintf("%v", req.Student["lastname"])
+	middleName := fmt.Sprintf("%v", req.Student["middlename"])
+	phone := fmt.Sprintf("%v", req.Student["phone"])
+	birthDate := fmt.Sprintf("%v", req.Student["birthdate"])
+	id := req.Student["id"].(int)
+	gender := req.Student["sex"].(int)
+
+	if err := h.svc.UpdateStudent(firstName, lastName, middleName, phone, birthDate, id, gender); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "update student error", "text": err.Error()})
 		return
 	}

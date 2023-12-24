@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/IlyaZayats/faculus/internal/requests"
 	"github.com/IlyaZayats/faculus/internal/services"
 	"github.com/gin-gonic/gin"
@@ -66,7 +67,7 @@ func (h *GroupHandlers) InsertGroup(c *gin.Context) {
 		return
 	}
 
-	if err := h.svc.InsertGroup(req.FacultyId, req.Name); err != nil {
+	if err := h.svc.InsertGroup(req.Group["faculty_id"].(int), fmt.Sprintf("%v", req.Group["name"])); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "insert group error", "text": err.Error()})
 		return
 	}
@@ -82,7 +83,7 @@ func (h *GroupHandlers) UpdateGroup(c *gin.Context) {
 		return
 	}
 
-	if err := h.svc.UpdateGroup(req.Id, req.Name); err != nil {
+	if err := h.svc.UpdateGroup(req.Group["id"].(int), fmt.Sprintf("%v", req.Group["name"])); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "update group error", "text": err.Error()})
 		return
 	}

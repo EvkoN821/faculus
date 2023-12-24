@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/IlyaZayats/faculus/internal/requests"
 	"github.com/IlyaZayats/faculus/internal/services"
 	"github.com/gin-gonic/gin"
@@ -32,7 +33,7 @@ func (h *UserHandlers) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "login request error", "text": ok})
 		return
 	}
-	user, err := h.svc.Login(req.Login, req.Pwd)
+	user, err := h.svc.Login(fmt.Sprintf("%v", req.User["login"]), fmt.Sprintf("%v", req.User["pwd"]))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "get users error", "text": err.Error()})
 		return
